@@ -23,11 +23,23 @@ export const config = {
     //
     specs: [
         // ToDo: define location for spec files here
+        'test/specs/**/*.js'
     ],
     // Patterns to exclude.
     exclude: [
         // 'path/to/excluded/files'
     ],
+    //Define suites
+    // suites: {
+    //     smoke: [
+    //         'test/specs/**/home.js',
+    //         'test/specs/**/contact.js'
+    //     ]
+    // ,
+    //     component: [
+    //         'test/specs/**/nav.js',
+    //     ]
+    // },
     //
     // ============
     // Capabilities
@@ -51,7 +63,14 @@ export const config = {
     // https://saucelabs.com/platform/platform-configurator
     //
     capabilities: [{
-        browserName: 'chrome'
+        browserName: 'chrome',
+        maxInstances: 5
+        // acceptInsecureCerts: true
+    // },
+    // {
+    //     browserName: 'firefox',
+    //     maxInstances: 5
+
     }],
 
     //
@@ -88,7 +107,7 @@ export const config = {
     baseUrl: 'https://www.amazon.com/',
     //
     // Default timeout for all waitFor* commands.
-    waitforTimeout: 10000,
+    waitforTimeout: 5000,
     //
     // Default timeout in milliseconds for request
     // if browser driver or grid doesn't send response
@@ -110,7 +129,6 @@ export const config = {
     // Make sure you have the wdio adapter package for the specific framework installed
     // before running any tests.
     framework: 'mocha',
-    
     //
     // The number of times to retry the entire specfile when it fails as a whole
     // specFileRetries: 1,
@@ -124,15 +142,20 @@ export const config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
-    reporters: ['spec'],
+    reporters: ['spec', ['allure', {
+        outputDir: 'allure-results',
+        disableWebdriverStepsReporting: false,
+        disableWebdriverScreenshotsReporting: false,
+    }]],
 
+    
+    //
     // Options to be passed to Mocha.
     // See the full list at http://mochajs.org/
     mochaOpts: {
         ui: 'bdd',
         timeout: 60000
     },
-
     //
     // =====
     // Hooks
@@ -203,19 +226,20 @@ export const config = {
     /**
      * Function to be executed before a test (in Mocha/Jasmine) starts.
      */
-    // beforeTest: function (test, context) {
+    // beforeTest: async function () {
+    //     await browser.setWindowSize(1000, 1000)
     // },
     /**
      * Hook that gets executed _before_ a hook within the suite starts (e.g. runs before calling
      * beforeEach in Mocha)
      */
-    // beforeHook: function (test, context, hookName) {
+    // beforeHook: function (test, context) {
     // },
     /**
      * Hook that gets executed _after_ a hook within the suite starts (e.g. runs after calling
      * afterEach in Mocha)
      */
-    // afterHook: function (test, context, { error, result, duration, passed, retries }, hookName) {
+    // afterHook: function (test, context, { error, result, duration, passed, retries }) {
     // },
     /**
      * Function to be executed after a test (in Mocha/Jasmine only)
@@ -227,8 +251,11 @@ export const config = {
      * @param {boolean} result.passed    true if test has passed, otherwise false
      * @param {object}  result.retries   information about spec related retries, e.g. `{ attempts: 0, limit: 0 }`
      */
-    // afterTest: function(test, context, { error, result, duration, passed, retries }) {
-    // },
+    afterTest: async function(test, context, { error }) {
+        if (error) {
+            await browser.takeScreenshot();
+        }
+    },
 
 
     /**

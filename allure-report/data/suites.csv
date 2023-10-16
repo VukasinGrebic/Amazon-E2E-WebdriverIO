@@ -1,0 +1,5 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Tue Oct 10 15:22:34 CEST 2023","Tue Oct 10 15:22:39 CEST 2023","4590","","Suite","","","","Test",""
+"broken","Tue Oct 10 15:28:44 CEST 2023","Tue Oct 10 15:28:54 CEST 2023","9671","","Navigation Menu","","","","Get text of all menu items and assert them",""
+"broken","Tue Oct 10 15:28:46 CEST 2023","Tue Oct 10 15:28:54 CEST 2023","7885","","Navigation Menu","","","","Get text of all menu items and assert them",""
+"passed","Tue Oct 10 15:22:32 CEST 2023","Tue Oct 10 15:22:39 CEST 2023","6520","","Suite","","","","Test",""
