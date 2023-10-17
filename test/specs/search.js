@@ -1,5 +1,6 @@
 import SearchPage from "../pages/search-page.js"
 import HomePage from "../pages/home-page.js"
+import { faker } from '@faker-js/faker'
 
 describe('Search flow', () => {
 
@@ -7,11 +8,12 @@ describe('Search flow', () => {
         await HomePage.open()
     })
 
-    it('Search product and verify', async () => {
+    it.only('Search product and verify', async () => {
         await SearchPage.pause()
-        await SearchPage.searchBar.addValue('Macbook')
+        const product = faker.commerce.product()
+        await SearchPage.searchBar.addValue(product)
         await SearchPage.searchBtn.click()
-        await expect(SearchPage.searchResult).toHaveTextContaining('Macbook')
+        await expect(SearchPage.searchResult).toHaveTextContaining(product)
     })
     
     it('Search auto sugesstion and verify', async () => {

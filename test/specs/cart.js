@@ -1,15 +1,18 @@
 import HomePage from "../pages/home-page.js"
 import CartPage from "../pages/cart-page.js"
 import SearchPage from "../pages/search-page.js"
+import { faker } from '@faker-js/faker'
 
 describe('Cart flow', () => {
     beforeEach(async () => {
         await HomePage.open()
+        
     })
 
     it('Add to cart and verify', async () => {
         await SearchPage.pause()
-        await SearchPage.searchBar.addValue('Macbook')
+        const product = faker.commerce.product()
+        await SearchPage.searchBar.addValue(product)
         await SearchPage.searchBtn.click()
         const price = await CartPage.price.getText()
         await CartPage.productImg.click()
@@ -19,8 +22,10 @@ describe('Cart flow', () => {
 
     })
 
-    it.only('Update cart and verify', async () => {
-        await SearchPage.searchBar.addValue('Macbook')
+    it('Update cart and verify', async () => {
+        await SearchPage.pause()
+        const product = faker.commerce.product()
+        await SearchPage.searchBar.addValue(product)
         await SearchPage.searchBtn.click()
         await CartPage.productImg.click()
         await CartPage.addToCart.click()
